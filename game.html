@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+</head>
+<body onload="javascript: updateValue()">
+    <div class="d-flex flex-column align-items-center">
+        <div><img style="width: 100px" src="assets/logo.png"></div>
+        <div><h3>UMNGotcha</h3></div>
+    </div>
+    <hr />
+    <div class="container-fluid d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center" id="statusbar">
+            <div class="mt-2 row">
+                <div class="col">
+                    <div>Hunger</div>
+                    <div class="progress">
+                        <div class="updated-progress"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>Energy</div>
+                    <div class="progress">
+                        <div class="updated-progress"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-1 row">
+                <div class="col">
+                    <div>Fun</div>
+                    <div class="progress">
+                        <div class="updated-progress"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>Health</div>
+                    <div class="progress">
+                        <div class="updated-progress"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 mb-2 row">
+                <div class="col" id="level">
+                    Level 1
+                </div>
+            </div>
+        </div>
+        <div class="mt-3"><h2 id="myname">Good Morning John Thor</h2></div>
+        <div><h2 id="time">00:00</h2></div>
+        <div id="avatar"><img style="width: 150px" src="assets/animal1.png"></div>
+        <div class="mt-3 d-flex flex-column align-items-center" id="menubar">
+            <div class="mt-2 row">
+                <div class="col">
+                    <button style="width: 150px" class="eat">Eat</button>
+                </div>
+                <div class="col">
+                    <button style="width: 150px" class="sleep">Sleep</button>
+                </div>
+            </div>
+            <div class="mt-1 row">
+                <div class="col">
+                    <button style="width: 150px" class="play">Play</button>
+                </div>
+                <div class="col">
+                    <button style="width: 150px" class="medic">Medicine</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p id="omg"></p>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css" />
+    <title>UMNGotcha | MidTerm</title>
+</head>
+<body>
+    <!-- <audio autoplay loop>
+        <source src="assets/music1.mp3" type="audio/mpeg">
+    </audio> -->
+    <div class="d-flex flex-column align-items-center">
+        <div><img style="width: 100px" src="assets/logo.png"></div>
+        <div><h3>UMNGotcha</h3></div>
+    </div>
+    <hr />
+    <div class="mt-3 pt-2 d-flex flex-column align-items-center">
+        <div><h2>Choose your avatar</h2></div>
+        <p id="num">(1/4)</p>
+        <div class="d-flex justify-content-between align-items-center" id="choosebox">
+            <a onclick="javascript:image_left()" id="arrow-left"></a>
+            <div id="avatar"><img style="width: 200px" src="assets/animal1.png"></div>
+            <a onclick="javascript:image_right()" id="arrow-right"></a>
+        </div>
+        <form action="game.html" method="get" onsubmit="javascript:addValue()">
+            <div class="d-flex flex-column align-items-center">
+                <div class="mt-3">Enter your pet name here...</div>
+                <input type="text" id="name" name="name" required>
+                <button href="game.html" class="mt-2">Play</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!--Silent Wood by Purrple Cat | https://purrplecat.com/
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons CC BY-SA 3.0
+https://creativecommons.org/licenses/by-sa/3.0/-->
+ 

@@ -1,0 +1,77 @@
+@media (max-width: 576px){
+    #statusbar{
+        width: 250px;
+        align-self: center;
+        border: 5px solid black;
+    }
+}
+
+body{
+    font-family: monospace;
+}
+
+hr{
+    border-top: 3px solid black;
+}
+
+#choosebox{
+  width: 300px;
+}
+
+#arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 35px solid transparent;
+    border-bottom: 35px solid transparent;
+    border-right: 35px solid black;
+}
+
+#arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 35px solid transparent;
+    border-bottom: 35px solid transparent;
+    border-left: 35px solid black;
+}
+
+#arrow-left:hover {
+    border-right: 35px solid silver;
+}
+
+#arrow-right:hover {
+    border-left: 35px solid silver;
+}
+
+#statusbar{
+    width: 500px;
+    align-self: center;
+    border: 5px solid black;
+}
+
+#menubar{
+    width: 600px;
+    align-self: center;
+}
+
+.progress{
+    background-color: grey;
+    border-radius: 20px;
+    height: 30px;
+    width: 200px;
+}
+
+.updated-progress{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: repeating-linear-gradient(
+        to left, rgb(44, 44, 241), rgb(89, 89, 234), rgb(145, 145, 236)
+    );
+    box-shadow: 0 5px 5px -6px, rgb(44, 44, 241), 0 3px 7px, rgb(89, 89, 234);
+    border-radius: 20px;
+    color: #fff;
+    height: 100%;
+    width: 0;
+    transition: 1s ease 0.3s;
+}
+
