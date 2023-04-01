@@ -6,6 +6,12 @@
     }
 }
 
+@media (min-width: 576px){
+    .container{
+        width: 576px;
+    }
+}
+
 body{
     font-family: monospace;
 }
@@ -53,14 +59,15 @@ hr{
     align-self: center;
 }
 
-.progress{
+.bar-container{
     background-color: grey;
+    overflow: hidden;
     border-radius: 20px;
     height: 30px;
     width: 200px;
 }
 
-.updated-progress{
+.fill{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,3 +82,6 @@ hr{
     transition: 1s ease 0.3s;
 }
 
+#tes{
+    border: 5px solid black;
+}
