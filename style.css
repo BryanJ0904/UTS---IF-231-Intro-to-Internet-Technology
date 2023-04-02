@@ -104,3 +104,15 @@ hr{
 #tes{
     border: 5px solid black;
 }
+
+canvas {
+    border: solid black 1px;
+}
+
+#gameContainer {
+    display: none;
+}
+
+.avatarContainer{
+    display: block;
+}

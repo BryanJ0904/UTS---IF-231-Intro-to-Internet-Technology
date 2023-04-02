@@ -8,6 +8,10 @@ num = document.getElementById("num");
 const max_avatar = 4;
 imagecurr = 1;
 
+function loadMusic(){
+    audio.setAttribute("src", "assets/music.mp3");
+}
+
 function image_left(){
     if(imagecurr>1){
         imagecurr--;
@@ -45,17 +49,14 @@ function updateName(){
     var myname = sessionStorage.getItem("name");
     var time = sessionStorage.getItem("time");
     a = document.getElementById("myname");
-    if (time >= 4 && time <= 10){
+    if (time >= 0 && time <= 10){
         a.innerHTML = "Good Morning " + myname + "!";
     }
-    else if (time >= 11 && time <= 14){
+    else if (time >= 11 && time <= 17){
         a.innerHTML = "Good Afternoon " + myname + "!";
     }
-    else if (time >= 15 && time <= 17){
+    else if (time >= 18 && time < 24){
         a.innerHTML = "Good Evening " + myname + "!";
-    }
-    else if ((time >= 18 && time <= 24) || time <= 3){
-        a.innerHTML = "Good Night " + myname + "!";
     }
 }
 
@@ -128,7 +129,7 @@ function startGame(){
         updateStats();
         updateLevel();
         sleepButton.addEventListener("click", sleep);
-        playButton.addEventListener("click", play);
+        playButton.addEventListener("click", startPetGame);
         eatButton.addEventListener("click", eat);
         healButton.addEventListener("click", heal);
     }
@@ -141,7 +142,7 @@ function gameEvent(){
             notif.innerHTML = "Your pet is getting bored, give it some love!";
             messageShown1 = true;
             depression = setInterval(function(){
-            happiness -= Math.floor(Math.random() * 2) + 2;
+            happiness -= Math.floor(Math.random() * 3) + 3;
             updateBars();
             if (lovemeter>=3 && messageShown1) {
                 notif.innerHTML = "Your pet is no longer bored!";
@@ -158,7 +159,7 @@ function gameEvent(){
             notif.innerHTML = "Your pet is getting sick, treat it well!";
             messageShown2 = true;
             crisis = setInterval(function(){
-            health -= Math.floor(Math.random() * 2) + 2;
+            health -= Math.floor(Math.random() * 3) + 3;
             updateBars();
             if (energy > 0 && hunger > 0 && medicineUsed && messageShown2) {
                 notif.innerHTML = "Your pet is no longer sick!";
@@ -191,10 +192,20 @@ function updateLevel() {
     setInterval(function(){
         if(!gameOverShown){
             if(levelcurr<3){
+                happiness += Math.floor(Math.random() * 4) + 5;
+                health += Math.floor(Math.random() * 4) + 5;
                 sfx.setAttribute("src", "assets/levelup.mp3");
                 levelcurr++;
                 level.innerHTML = "Level " + levelcurr;
                 updateAvatar();
+                notif.innerHTML = "Level UP!!!";
+            }
+            else if(levelcurr==3){
+                happiness += Math.floor(Math.random() * 4) + 5;
+                health += Math.floor(Math.random() * 4) + 5;
+                sfx.setAttribute("src", "assets/levelup.mp3");
+                levelcurr++;
+                level.innerHTML = "Level MAX";
                 notif.innerHTML = "Level UP!!!";
             }
             else{
@@ -278,6 +289,13 @@ function updateStats() {
             happiness -= Math.floor(Math.random() * 3) + 3;
             health -= Math.floor(Math.random() * 3) + 3;
         }
+
+        if (levelcurr==4){
+            energy -= Math.floor(Math.random() * 4) + 12;
+            hunger -= Math.floor(Math.random() * 4) + 12;
+            happiness -= Math.floor(Math.random() * 4) + 5;
+            health -= Math.floor(Math.random() * 4) + 5;
+        }
         if (energy < 0){
             energy = 0;
         }
@@ -298,7 +316,7 @@ function sleep() {
     if(energy<100){
         sfx.setAttribute("src", "assets/sleep.mp3");
         energy += Math.floor(Math.random() * 11) + 15;
-        hunger -= Math.floor(Math.random() * 6) + 15;
+        hunger -= Math.floor(Math.random() * 6) + 10;
         if(lovemeter<3){
             lovemeter++;
         }
@@ -342,17 +360,19 @@ function play() {
         happiness += Math.floor(Math.random() * 11) + 5;
     }
     else{
-        happiness += Math.floor(Math.random() * 11) + 15;
+        happiness += Math.floor(Math.random() * 6) + 20;
         hunger -= Math.floor(Math.random() * 6) + 10;
     }
-    if(lovemeter<=3){
-        lovemeter++;
+    if(lovemeter<3){
+        lovemeter += 3;
+        if(lovemeter > 3){
+            lovemeter == 3;
+        }
     }
-
     if (energy < 0) {
         energy = 0;
     }
-    if (happiness > 100) {
+    if (happiness > 100){
         happiness = 100;
     }
     if (hunger < 0) {
@@ -365,11 +385,8 @@ function heal() {
     if(cooldown==false){
         sfx.setAttribute("src", "assets/heal.mp3");
         health += Math.floor(Math.random() * 11) + 20;
-        happiness += Math.floor(Math.random() * 11);
-        energy -= Math.floor(Math.random() * 11) + 10;
-        if(lovemeter<3){
-            lovemeter++;
-        }
+        happiness -= Math.floor(Math.random() * 11);
+        energy -= Math.floor(Math.random() * 6) + 15;
         if (health > 100) {
             health = 100;
         }
@@ -391,8 +408,137 @@ function heal() {
         notif.innerHTML = "You can only heal your pet once every 20 seconds!";
     }
 }
-		
 
+//Play Game
+//Initializing Variable
+canvas = document.getElementById('gameCanvas');
+canvasContext = canvas.getContext('2d');
+var isGameRunning = false;
+var petX = 10;
+var petY = 10;
+var gridSize = 20;
+var tileSize = 15;
+var foodX = 15;
+var foodY = 15;
+var xVelocity = 0;
+var yVelocity = 0;
+var tail = 1;
 
-    
+function startPetGame() {
+    for(i=0;i<3;i++){
+        document.getElementsByClassName("avatarContainer")[i].style.display = "none";
+    }
+    sleepButton.style.display = "none";
+    playButton.style.display = "none";
+    eatButton.style.display = "none";
+    healButton.style.display = "none";
+    document.getElementById("gameContainer").style.display = "block";
+    if(!isGameRunning){
+        petGame = setInterval(game, 1000/15);
+    }
+}
+
+// Fungsi untuk memulai permainan
+function game() {
+	// Check if the game is over
+	if (tail > 3) {
+		tail = 1;
+		document.getElementById("gameContainer").style.display = "none";
+        for(i=0;i<3;i++){
+            sleepButton.style.display = "block";
+            playButton.style.display = "block";
+            eatButton.style.display = "block";
+            healButton.style.display = "block";
+            document.getElementsByClassName("avatarContainer")[i].style.display = "block";
+        }
+        play();
+        clearInterval(petGame);
+		return;
+	}
+
+	// Update posisi ular
+	petX += xVelocity;
+	petY += yVelocity;
+
+	// Cek jika ular keluar dari layar
+	if (petX < 0) {
+		petX = gridSize - 1;
+	} else if (petX > gridSize - 1) {
+		petX = 0;
+	} else if (petY < 0) {
+		petY = gridSize - 1;
+	} else if (petY > gridSize - 1) {
+		petY = 0;
+	}
+
+	// Set background
+	canvasContext.fillStyle = 'black';
+	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+	// Set makanan
+	canvasContext.fillStyle = 'red';
+	canvasContext.fillRect(foodX * tileSize, foodY * tileSize, tileSize, tileSize);
+
+	// Set ular
+	canvasContext.fillStyle = 'green';
+	canvasContext.fillRect(petX * tileSize, petY * tileSize, tileSize, tileSize);
+
+	// Cek jika ular makan makanan
+	if (foodX === petX && foodY === petY) {
+		foodX = Math.floor(Math.random() * gridSize);
+		foodY = Math.floor(Math.random() * gridSize);
+		tail++;
+	}
+
+	// Set arah ular
+	document.onkeydown = function(event) {
+		switch (event.keyCode) {
+			case 65:
+				xVelocity = -1;
+				yVelocity = 0;
+				break;
+			case 87:
+				xVelocity = 0;
+				yVelocity = -1;
+				break;
+			case 68:
+				xVelocity = 1;
+				yVelocity = 0;
+				break;
+			case 83:
+				xVelocity = 0;
+				yVelocity = 1;
+				break;
+		}
+	}
+
+	document.onkeyup = function(event) {
+		switch (event.keyCode) {
+			case 65:
+				if (xVelocity === -1) {
+					xVelocity = 0;
+					yVelocity = 0;
+				}
+				break;
+			case 87:
+				if (yVelocity === -1) {
+					xVelocity = 0;
+					yVelocity = 0;
+				}
+				break;
+			case 68:
+				if (xVelocity === 1) {
+					xVelocity = 0;
+					yVelocity = 0;
+				}
+				break;
+			case 83:
+				if (yVelocity === 1) {
+					xVelocity = 0;
+					yVelocity = 0;
+				}
+				break;
+		}
+	};
+}
 

@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="style.css" />
     <title>Document</title>
 </head>
-<body onload="javascript: updateValue();">
-     <audio id="audio" autoplay loop>
-        <source src="assets/music1.mp3" type="audio/mpeg">
+<body onload="javascript: updateValue();" onloadeddata="loadMusic()">
+    <audio id="audio" autoplay loop>
+        <source src="assets/music.mp3" type="audio/mpeg">
     </audio>
     <audio id="sfx" autoplay>
         <source src="" type="audio/mpeg">
@@ -76,9 +76,13 @@
                 </div>
             </div>
         </div>
-        <div class="mt-3"><h2 style="text-align: center" id="myname">Good Morning John Thor</h2></div>
-        <div><h2 id="time">00:00</h2></div>
-        <div id="avatar"><img style="width: 150px" src="assets/animal1.png"></div>
+        <div class="mt-3" id="gameContainer">
+            <div>Press W, A, S, D to move.</div>
+            <canvas id="gameCanvas" width="300" height="300"></canvas>
+        </div>
+        <div class="mt-3"><h2 style="text-align: center" id="myname" class="avatarContainer">Good Morning John Thor</h2></div>
+        <div><h2 id="time" class="avatarContainer">00:00</h2></div>
+        <div id="avatar" class="avatarContainer"><img style="width: 150px" src="assets/animal1.png"></div>
         <div class="mt-3 d-flex flex-column align-items-center" id="menubar">
             <div class="mt-2 row">
                 <div class="col">
