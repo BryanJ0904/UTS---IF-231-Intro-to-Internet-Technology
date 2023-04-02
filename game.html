@@ -9,12 +9,18 @@
     <title>Document</title>
 </head>
 <body onload="javascript: updateValue();">
+     <audio id="audio" autoplay loop>
+        <source src="assets/music1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx" autoplay>
+        <source src="" type="audio/mpeg">
+    </audio>
     <div class="d-flex flex-column align-items-center">
         <div><img style="width: 100px" src="assets/logo.png"></div>
         <div><h3>UMNGotcha</h3></div>
     </div>
     <hr />
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-column flex-md-row">
         <div id="guideMenu" class="mt-5 container align-items-center">
             <div id="tes" class="d-flex flex-column">
                 <div>
@@ -22,7 +28,7 @@
                 <pre class="px-3">1. Your pet has four status that must be kept an eye on.
    These include hunger, energy, happiness, and health. 
 2. Reaching zero in Happiness or Health will result in the end of the game.
-3. All status decrease every 5 second. The rate will be determined from the
+3. All status decrease every 5 seconds. The rate will be determined from the
    pets current level.
 4. Your pet will level up every 40 seconds, each level will gradually get harder.
 5. Your objective is to make sure everything is in balance by doing activities.
@@ -33,8 +39,9 @@
             <button style="height: 50px;" id="start">Start Game</button>
             </div>
         </div>
-    <div class="container d-flex flex-column align-items-center">
-        <div class="d-flex flex-column align-items-center" id="statusbar">
+    <div id="ui" class="container d-flex flex-column align-items-center">
+        <div id="notif"></div>
+        <div class="mt-2 d-flex flex-column align-items-center" id="statusbar">
             <div class="mt-2 row">
                 <div class="col">
                     <div>Hunger</div>

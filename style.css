@@ -4,6 +4,10 @@
         align-self: center;
         border: 5px solid black;
     }
+
+    #ui{
+        margin-top: 20px;
+    }
 }
 
 @media (min-width: 576px){
@@ -75,6 +79,21 @@ hr{
         to left, rgb(44, 44, 241), rgb(89, 89, 234), rgb(145, 145, 236)
     );
     box-shadow: 0 5px 5px -6px, rgb(44, 44, 241), 0 3px 7px, rgb(89, 89, 234);
+    border-radius: 20px;
+    color: #fff;
+    height: 100%;
+    width: 0;
+    transition: 1s ease 0.3s;
+}
+
+.fill-red{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: repeating-linear-gradient(
+        to left, rgb(245, 47, 43), rgb(242, 92, 89), rgb(193, 119, 118)
+    );
+    box-shadow: 0 5px 5px -6px, rgb(245, 47, 43), 0 3px 7px, rgb(242, 92, 89);
     border-radius: 20px;
     color: #fff;
     height: 100%;

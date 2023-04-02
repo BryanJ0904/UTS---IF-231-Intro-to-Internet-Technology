@@ -1,3 +1,5 @@
+audio = document.getElementById("audio");
+sfx = document.getElementById("sfx");
 image = document.getElementById("avatar").firstChild;
 left = document.getElementsByClassName("arrow-left");
 right = document.getElementsByClassName("arrow-right");
@@ -9,11 +11,11 @@ imagecurr = 1;
 function image_left(){
     if(imagecurr>1){
         imagecurr--;
-        image.setAttribute("src", "assets/animal" + imagecurr + ".png");
+        image.setAttribute("src", "assets/animal" + imagecurr + "_1" + ".png");
     }
     else{
         imagecurr=max_avatar;
-        image.setAttribute("src", "assets/animal" + imagecurr + ".png");
+        image.setAttribute("src", "assets/animal" + imagecurr + "_1" + ".png");
     }
     num.firstChild.nodeValue = "(" + imagecurr + "/4)";
 }
@@ -21,11 +23,11 @@ function image_left(){
 function image_right(){
     if(imagecurr<max_avatar){
         imagecurr++;
-        image.setAttribute("src", "assets/animal" + imagecurr + ".png");
+        image.setAttribute("src", "assets/animal" + imagecurr + "_1" + ".png");
     }
     else{
         imagecurr=1;
-        image.setAttribute("src", "assets/animal" + imagecurr + ".png");
+        image.setAttribute("src", "assets/animal" + imagecurr + "_1" + ".png");
     }
     num.firstChild.nodeValue = "(" + imagecurr + "/4)";
 }
@@ -69,8 +71,7 @@ function updateTime() {
   }
 
 function updateAvatar(){
-    var avatar = document.getElementById("avatar").firstChild;
-    avatar.setAttribute("src", "assets/animal" + sessionStorage.getItem("avatar") + ".png");
+    image.setAttribute("src", "assets/animal" + sessionStorage.getItem("avatar") + "_" + levelcurr + ".png");
 }
 
 function addValue(){
@@ -86,6 +87,7 @@ function updateValue(){
 
 //Variable Declaration
 const pet = document.getElementById("avatar");
+const notif = document.getElementById("notif");
 const energyBar = document.getElementById("energy-bar");
 const happinessBar = document.getElementById("happiness-bar");
 const hungerBar = document.getElementById("hunger-bar");
@@ -113,31 +115,97 @@ energyBar.style.width = energy + "%";
 updateBars();
 
 startButton.addEventListener("click", startGame);
-sleepButton.addEventListener("click", sleep);
-playButton.addEventListener("click", play);
-eatButton.addEventListener("click", eat);
-healButton.addEventListener("click", heal);
 
 function startGame(){
+    audio.setAttribute("src", "assets/game.mp3");
+    notif.innerHTML = "Welcome owner!";
     var guide = document.getElementById("guideMenu");
     guide.parentNode.removeChild(guide);
     start = true;
     if(start){
+        gameOver();
+        gameEvent();
         updateStats();
         updateLevel();
+        sleepButton.addEventListener("click", sleep);
+        playButton.addEventListener("click", play);
+        eatButton.addEventListener("click", eat);
+        healButton.addEventListener("click", heal);
     }
 }
 
-//Status Bar
+function gameEvent(){
+    setInterval(function(){
+    if(lovemeter==0){
+        if(!messageShown1){
+            notif.innerHTML = "Your pet is getting bored, give it some love!";
+            messageShown1 = true;
+            depression = setInterval(function(){
+            happiness -= Math.floor(Math.random() * 2) + 2;
+            updateBars();
+            if (lovemeter>=3 && messageShown1) {
+                notif.innerHTML = "Your pet is no longer bored!";
+                messageShown1 = false;
+                clearInterval(depression);
+            }
+            }, 2000);
+        }
+    }
+    
+    if (energy <= 0 || hunger <= 0) {
+        if(!messageShown2){
+            medicineUsed = false;
+            notif.innerHTML = "Your pet is getting sick, treat it well!";
+            messageShown2 = true;
+            crisis = setInterval(function(){
+            health -= Math.floor(Math.random() * 2) + 2;
+            updateBars();
+            if (energy > 0 && hunger > 0 && medicineUsed && messageShown2) {
+                notif.innerHTML = "Your pet is no longer sick!";
+                messageShown2 = false;
+                clearInterval(crisis);
+            }
+            }, 2000);
+        }
+    }}, 2000);
+}
+
+function gameOver(){
+    gameOverShown = false;
+    setInterval(function() {
+    if (health <= 0 && !gameOverShown) {
+        gameOverShown = true;
+        alert("GAME OVER: Your pet has passed away :(");
+        location.reload();
+    }
+    if (happiness <= 0 && !gameOverShown){
+        gameOverShown = true;
+        alert("GAME OVER: Your pet leaves you :(");
+        location.reload();
+    }
+    }, 1000);
+}
+
 function updateLevel() {
     var level = document.getElementById("level");
-    setInterval(function() {
-        levelcurr++;
-        level.innerHTML = "Level " + levelcurr;
-        alert("Level UP!");
+    setInterval(function(){
+        if(!gameOverShown){
+            if(levelcurr<3){
+                sfx.setAttribute("src", "assets/levelup.mp3");
+                levelcurr++;
+                level.innerHTML = "Level " + levelcurr;
+                updateAvatar();
+                notif.innerHTML = "Level UP!!!";
+            }
+            else{
+                alert("GAME WON! Congratulations :)");
+                location.reload();
+            }
+        }
     }, 40000);
 }
 
+//Status Bar
 function updateBars() {
     energyBar.style.width = energy + "%";
     energyBar.innerText = energy + "%";
@@ -147,6 +215,32 @@ function updateBars() {
     hungerBar.innerText = hunger + "%";
     healthBar.style.width = health + "%";
     healthBar.innerText = health + "%";
+
+    if(hunger<=20){
+        hungerBar.setAttribute("class", "fill-red");
+    }
+    else{
+        hungerBar.setAttribute("class", "fill");
+    }
+
+    if(energy<=20){
+        energyBar.setAttribute("class", "fill-red");
+    }
+    else{
+        energyBar.setAttribute("class", "fill");
+    }
+    if(happiness<=20){
+        happinessBar.setAttribute("class", "fill-red");
+    }
+    else{
+        happinessBar.setAttribute("class", "fill");
+    }
+    if(health<=20){
+        healthBar.setAttribute("class", "fill-red");
+    }
+    else{
+        healthBar.setAttribute("class", "fill");
+    }
 }
 
 function updatePet() {
@@ -170,19 +264,19 @@ function updateStats() {
         if (levelcurr==1){
             energy -= Math.floor(Math.random() * 3) + 3;
             hunger -= Math.floor(Math.random() * 3) + 3;
-            happiness -= Math.floor(Math.random() * 4) + 1;
+            happiness -= Math.floor(Math.random() * 3) + 1;
         }
         if (levelcurr==2){
             energy -= Math.floor(Math.random() * 4) + 5;
             hunger -= Math.floor(Math.random() * 4) + 5;
-            happiness -= Math.floor(Math.random() * 4) + 3;
-            health -= Math.floor(Math.random() * 4) + 1;
+            happiness -= Math.floor(Math.random() * 3) + 3;
+            health -= Math.floor(Math.random() * 3) + 1;
         }
         if (levelcurr==3){
             energy -= Math.floor(Math.random() * 5) + 8;
             hunger -= Math.floor(Math.random() * 5) + 8;
-            happiness -= Math.floor(Math.random() * 4) + 3;
-            health -= Math.floor(Math.random() * 4) + 3;
+            happiness -= Math.floor(Math.random() * 3) + 3;
+            health -= Math.floor(Math.random() * 3) + 3;
         }
         if (energy < 0){
             energy = 0;
@@ -196,56 +290,16 @@ function updateStats() {
         if(lovemeter>0){
             lovemeter -= 1;
         }
-        if(lovemeter==0){
-            if(!messageShown1){
-                alert("Your pet is getting bored, give it some love!");
-                messageShown1 = true;
-            }
-            depression = setInterval(function(){
-                happiness -= Math.floor(Math.random() * 2) + 2;
-                updateBars();
-                if (lovemeter>=3 && messageShown1) {
-                    alert("Your pet is no longer bored!");
-                    messageShown1 = false;
-                    clearInterval(depression);
-                }
-                }, 2000);
-        }
         updateBars();
-
-        if (energy <= 0 || hunger <= 0) {
-            if(!messageShown2){
-                alert("Your pet is getting sick, treat it well!")
-                messageShown2 = true;
-            }
-            crisis = setInterval(function(){
-                health -= Math.floor(Math.random() * 2) + 2;
-                updateBars();
-                if (energy > 0 && hunger > 0 && medicineUsed && messageShown2) {
-                    alert("Your pet is no longer sick!");
-                    messageShown2 = false;
-                    clearInterval(crisis);
-                }
-                }, 2000);
-        }
-
-        if (health <= 0) {
-            alert("GAME OVER: Your pet has passed away :(");
-            location.reload();
-        }
-        
-        if (happiness <= 0){
-            alert("GAME OVER: Your pet leaves you :(");
-            location.reload();
-        }
     }, 5000);
 }
         
 function sleep() {
     if(energy<100){
+        sfx.setAttribute("src", "assets/sleep.mp3");
         energy += Math.floor(Math.random() * 11) + 15;
-        hunger -= Math.floor(Math.random() * 11) + 15;
-        if(lovemeter<=3){
+        hunger -= Math.floor(Math.random() * 6) + 15;
+        if(lovemeter<3){
             lovemeter++;
         }
         
@@ -258,14 +312,15 @@ function sleep() {
         updateBars();
     }
     else{
-        alert("Your pet isn't sleepy!");
+        notif.innerHTML = "Your pet isn't sleepy!";
     }
 }
 function eat() {
     if(hunger<100){
+        sfx.setAttribute("src", "assets/eat.mp3");
         hunger += Math.floor(Math.random() * 11) + 15;
         health -= Math.floor(Math.random() * 6) + 5;
-        if(lovemeter<=3){
+        if(lovemeter<3){
             lovemeter++;
         }
         if (hunger > 100) {
@@ -277,14 +332,19 @@ function eat() {
         updateBars();
     }
     else{
-        alert("Your pet is full!")
+        notif.innerHTML = "Your pet is full!";
     }
 }
 
 function play() {
-    energy -= Math.floor(Math.random() * 11) + 10;
-    happiness += Math.floor(Math.random() * 11) + 15;
-    hunger -= Math.floor(Math.random() * 6) + 10;
+    energy -= Math.floor(Math.random() * 6) + 10;
+    if(hunger<=15 || energy<=15){
+        happiness += Math.floor(Math.random() * 11) + 5;
+    }
+    else{
+        happiness += Math.floor(Math.random() * 11) + 15;
+        hunger -= Math.floor(Math.random() * 6) + 10;
+    }
     if(lovemeter<=3){
         lovemeter++;
     }
@@ -303,10 +363,11 @@ function play() {
 
 function heal() {
     if(cooldown==false){
+        sfx.setAttribute("src", "assets/heal.mp3");
         health += Math.floor(Math.random() * 11) + 20;
         happiness += Math.floor(Math.random() * 11);
         energy -= Math.floor(Math.random() * 11) + 10;
-        if(lovemeter<=5){
+        if(lovemeter<3){
             lovemeter++;
         }
         if (health > 100) {
@@ -327,9 +388,11 @@ function heal() {
         }, 20000);
         }
     else{
-        alert("You can only heal your pet once every 20 seconds!");
+        notif.innerHTML = "You can only heal your pet once every 20 seconds!";
     }
 }
+		
+
 
     
 
