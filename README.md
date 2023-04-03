@@ -5,3 +5,6 @@ List Anggota Kelompok:
 - Matthew Nikolaus - 00000067098
 - Mark Vincent Emmanuel By - 00000065468
 - David Moses Mantiri Kalesaran - 00000067468
+
+Link Github:
+https://github.com/BryanJ0904/UTS---IF-231-Intro-to-Internet-Technology.git
