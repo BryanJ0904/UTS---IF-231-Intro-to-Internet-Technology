@@ -291,10 +291,10 @@ function updateStats() {
         }
 
         if (levelcurr==4){
-            energy -= Math.floor(Math.random() * 4) + 12;
-            hunger -= Math.floor(Math.random() * 4) + 12;
-            happiness -= Math.floor(Math.random() * 4) + 5;
-            health -= Math.floor(Math.random() * 4) + 5;
+            energy -= Math.floor(Math.random() * 5) + 10;
+            hunger -= Math.floor(Math.random() * 5) + 10;
+            happiness -= Math.floor(Math.random() * 5) + 3;
+            health -= Math.floor(Math.random() * 5) + 3;
         }
         if (energy < 0){
             energy = 0;
@@ -337,7 +337,7 @@ function eat() {
     if(hunger<100){
         sfx.setAttribute("src", "assets/eat.mp3");
         hunger += Math.floor(Math.random() * 11) + 15;
-        health -= Math.floor(Math.random() * 6) + 5;
+        health -= Math.floor(Math.random() * 4) + 5;
         if(lovemeter<3){
             lovemeter++;
         }
@@ -355,13 +355,13 @@ function eat() {
 }
 
 function play() {
-    energy -= Math.floor(Math.random() * 6) + 10;
+    energy -= Math.floor(Math.random() * 5) + 8;
     if(hunger<=15 || energy<=15){
         happiness += Math.floor(Math.random() * 11) + 5;
     }
     else{
         happiness += Math.floor(Math.random() * 6) + 20;
-        hunger -= Math.floor(Math.random() * 6) + 10;
+        hunger -= Math.floor(Math.random() * 5) + 8;
     }
     if(lovemeter<3){
         lovemeter += 3;
